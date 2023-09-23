@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rubik:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/trix.css">
+    <title>{{nombrePagina}}</title>
+</head>
+<body>
+    {{!-- este div ya esta estilizado en el css del public --}}
+    <div class="nombre-sitio contenedor">
+        <h1>
+            <a href="/">devJobs</a>
+        </h1>
+    </div>
+        {{#if barra}}
+            <div class="buscador">
+                <form action="#">
+                    <input type="text" class="buscar">
+                    <input type="submit" value="Buscar">
+                </form>
+            </div>
+        {{/if}}
+    <header class="site-header contenedor separador">
+        <h2>{{nombrePagina}}</h2>
+        {{#if tagline}}
+        <p class="tagline">{{tagline}}</p>
+        {{/if}}
+        {{#if boton}}
+        <a href="/vacantes/nueva" class="btn btn-azul">Publicar Nueva Vacante</a>
+        {{/if}}
+    </header>
+    <div class="contenido-principal contenedor">
+        {{{body}}}
+    </div>
+    <script src="/Js/trix.js"></script>
+    <script src="/dist/bundle.js"></script>
+</body>
+</html>
