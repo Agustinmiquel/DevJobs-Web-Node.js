@@ -13,6 +13,10 @@ const MongoStore = require('connect-mongo');
 const bodyparser = require('body-parser'); 
 const Handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
+const expressValidator = require('express-validator'); 
+const flash = require('connect-flash');
+
+const passport = require('./config/passport')
 
 
 
@@ -23,6 +27,9 @@ const app = express();
 //Habilitar bodyparser: 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
+
+//Habilitar expressValidator y ConnectFlash:
+app.use(expressValidator());
 
 // Habilitar Handlebars como view:
 app.engine('handlebars', 
@@ -48,6 +55,18 @@ app.use(session({
         mongoUrl: process.env.MONGO_URI
     })
 }));
+
+//Inicializar el PASSPORT: 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
+//Nuestros Middlewares: 
+app.use((req,res,next) => {
+    res.locals.mensajes = req.flash(); 
+    next();
+});
 
 app.use('/',router());
 

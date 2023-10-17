@@ -12,11 +12,16 @@ exports.formularioNuevavacante = (req, res) => {
 exports.agregarVacante = async (req,res) => {
     const vacante = new Vacante(req.body); 
 
+    //usuario autor de la vacante
+    vacante.autor = req.user._id;
+
     //crear arreglo de habilidades: 
     vacante.skills = req.body.skills.split(',');
 
+    //almacenarlo en la base de datos
     const nuevaVacante = await vacante.save();
 
+    //redireccion
     res.redirect(`/vacantes/${nuevaVacante.url}`)
 }
 
