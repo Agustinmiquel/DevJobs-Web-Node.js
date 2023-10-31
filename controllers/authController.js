@@ -1,6 +1,8 @@
 const passport = require ('passport');
 const mongoose = require('mongoose');
+const { request, response } = require('express');
 const Vacantes = mongoose.model('Vacante')
+
 
 exports.autenticarUsuario = passport.authenticate('local',{
     successRedirect: '/administracion',
@@ -27,6 +29,15 @@ exports.mostarPanel = async (req, res) => {
     res.render('administracion',{
         nombrePagina: 'Panel de Administracion',
         tagline: 'Crea y administra tus vacantes desde aqui',
+        cerrarSesion: true,
+        nombre: req.user.nombre,
         vacantes
     });
+}
+
+exports.cerrarSesion = (req = request, res)=> {
+    req.flash('correcto', 'Cerraste Sesíon');
+    req.logOut();
+
+    return res.redirect('iniciar-sesion');
 }

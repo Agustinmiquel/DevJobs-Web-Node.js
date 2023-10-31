@@ -16,7 +16,7 @@
         <h1>
             <a href="/">devJobs</a>
         </h1>
-    </div>
+    
         {{#if barra}}
             <div class="buscador">
                 <form action="#">
@@ -25,6 +25,15 @@
                 </form>
             </div>
         {{/if}}
+
+        {{#if cerrarSesion}}
+            <div class="cerrar-sesion">
+                <p>Hola! {{nombre}}</p>
+                <a href="/administracion">Administración</a>
+                <a href="/cerrar-sesion">Cerrar Sesión</a>
+            </div>
+        {{/if}}
+    </div>
     <header class="site-header contenedor separador">
         <h2>{{nombrePagina}}</h2>
         {{#if tagline}}

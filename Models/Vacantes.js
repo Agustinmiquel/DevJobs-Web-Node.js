@@ -7,7 +7,6 @@ const vacantesSchema= new mongoose.Schema({
 
     titulo: {
         type: String,
-        required: 'el titulo es obligatorio',
         trim: true //trim lo que hace es recortar los espacios vacios en un titulo
     }, 
 

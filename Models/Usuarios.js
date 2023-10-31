@@ -2,6 +2,7 @@ const mongoose = require('mongoose'); //para tener todos los metodos para crear 
 mongoose.Promise = global.Promise; //Esto para que las respuestas de mongo sean Promesas
 const brcrypt = require('bcrypt')
 
+
 const usuariosSchema= new mongoose.Schema({
     email: {
         type: String,
@@ -12,15 +13,13 @@ const usuariosSchema= new mongoose.Schema({
 
     nombre: {
         type: String,
-        required: 'Agrega tu nombre',
     },
-    
     password: {
         type: String,
-        required: true,
     },
     token: String,
     expira: Date,
+    imagen: String,
 });
 
 // METODO PARA HASHEAR LAS PASSWORDs

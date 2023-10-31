@@ -5,6 +5,8 @@ const Vacante = mongoose.model('Vacante');
 exports.formularioNuevavacante = (req, res) => {
     res.render('nueva-vacante', {
         nombrePagina: 'Nueva Vacante',
+        cerrarSesion: true,
+        nombre: req.user.nombre,
         tagline: 'Completa el formulario y publica tu vacante',
     }); 
 }
@@ -47,6 +49,8 @@ exports.formEditarVacante = async (req, res, next) =>{
 
     res.render('editar-vacante',{
     vacante,
+    cerrarSesion: true,
+    nombre: req.user.nombre,
     nombrePagina: `Editar-${vacante.titulo}`,
  })
 }
@@ -61,5 +65,64 @@ exports.editarVacante = async (req, res) => {
     }); 
 
     res.redirect(`/vacantes/${vacante.url}`); 
+}
 
+exports.validarVacante = (req, res, next) => {
+
+    // Sanitizar los campos
+    req.sanitizeBody('titulo').escape();
+    req.sanitizeBody('empresa').escape();
+    req.sanitizeBody('ubicacion').escape();
+    req.sanitizeBody('salario').escape();
+    req.sanitizeBody('contrato').escape();
+    req.sanitizeBody('skills').escape();
+
+    // validar
+    req.checkBody('titulo','Agrega un Titulo a la Vacante').notEmpty();
+    req.checkBody('empresa','Nombre de la Empresa es requerido').notEmpty();
+    req.checkBody('ubicacion','Ubicación es requerida').notEmpty();
+    req.checkBody('contrato','Contrato es requerido').notEmpty();
+    req.checkBody('skills', 'Agrega al menos una habilidad').notEmpty();
+
+    const errores = req.validationErrors(); 
+    
+    if(errores){
+        // Retorno si hay errores: 
+        req.flash('error', errores.map(error => error.msg));
+        
+        res.render('nueva-vacante', {
+            nombrePagina: 'Nueva Vacante',
+            cerrarSesion: true,
+            nombre: req.user.nombre,
+            tagline: 'Completa el formulario y publica tu vacante',
+            mensajes: req.flash()
+        })
+    }
+
+    next();
+}
+
+exports.eliminarVacante = async (req, res) => {
+
+    const { _id } = req.params; 
+
+    const vacante = await Vacante.findById(_id); 
+
+    if(verificarAutor(vacante, req.user)){
+        //Si es el usuario y puede eliminar
+        vacante.remove();
+        res.status(200).send('Vacante Eliminada Correctamente');
+    } else{
+        res.status(403).send('Error')
+    }
+
+    console.log( _id ); 
+ 
+}
+
+const verificarAutor = ( vacante = {}, usuario = {}) => {
+    if(!vacante.autor.equals(usuario._id)){
+        return false
+    }
+    return true;
 }

@@ -472,6 +472,7 @@ p.candidatos {
 }
 .correcto {
     background-color: #00C897;
+    transition: 0.5s;
 }
 .error {
     background-color: #C80045;
