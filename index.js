@@ -68,4 +68,9 @@ app.use((req,res,next) => {
 
 app.use('/',router());
 
-app.listen(process.env.PUERTO);
+const port = process.env.PORT;
+const host = '0.0.0.0';
+
+app.listen(port, host, ()=> {
+    console.log('La app corre');
+});

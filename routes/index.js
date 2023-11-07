@@ -96,5 +96,7 @@ module.exports = () => {
         vacantesController.mostrarCandidatos
     )
 
+    route.post('/buscador', vacantesController.buscarVacantes);
+
     return route;
 }

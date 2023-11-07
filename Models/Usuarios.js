@@ -35,6 +35,9 @@ usuariosSchema.pre('save', async function(next){
     next();
 });
 
+// AGREGAR INDICE PARA el Buscador:
+usuariosSchema.index({nombre: 'text'})
+
 //Envia una alerta en el caso de que el usuario ya este registrado
 usuariosSchema.post('save', function(error, doc, next ){
     if(error.name === 'MongoServerError' && error.code === 11000){

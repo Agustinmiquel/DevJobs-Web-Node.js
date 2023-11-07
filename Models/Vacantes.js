@@ -60,4 +60,7 @@ vacantesSchema.pre('save', function(next){
 
     next(); //NEXT es un Middelware
 })
+
+// Agregar INDICE para las busquedas: 
+vacantesSchema.index({ titulo: 'text', empresa: 'text' });
 module.exports = mongoose.model('Vacante', vacantesSchema); 
