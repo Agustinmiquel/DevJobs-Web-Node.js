@@ -4,7 +4,7 @@ module.exports= {
         'jQuery', 'Node.Js', 'Angular', 'VueJS', 'ReactJS', 'React Hooks', 'Express', 'Go',
         'Redux', 'Apollo', 'GraphQL', 'TypeScript', 'PHP', 'Laravel', 'Symfony', 'C++',
         'Python', 'Django', 'ORM', 'Sequelize', 'Mongoose', 'SQL', 'MVC', '.NET', 'C#', 'Nest.js', 'Flutter',
-        'Dart', 'Ionic', 'Kotlin', 'Spring Boot', 'React Native', 'SqlAlchemy-Pewee','Flask'
+        'Dart', 'Ionic', 'Kotlin', 'Spring Boot', 'React Native', 'SqlAlchemy-Pewee','Flask', 'Figma', 'UX'
     ];
         
         let html = '';

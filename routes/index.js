@@ -50,6 +50,21 @@ module.exports = () => {
     route.get('/iniciar-sesion', usuariosController.formIniciarSesion);
     route.post('/iniciar-sesion', authController.autenticarUsuario);
 
+    // Resetear PASSWORDS: 
+    route.get('/reestablecer-password',
+        authController.formReestablecerContra, 
+    );
+    route.post('/reestablecer-password',
+        authController.enviarTOKEN,
+    );
+
+    // RESETEAR Password (Almacenar a la BD):
+    route.get('/reestablecer-password/:token',
+        authController.reestablecerPassword,
+    )
+    route.post('/reestablecer-password/:token',
+     authController.guardarPassword);
+
     // Cerrar Sesión:
     route.get('/cerrar-sesion',
     authController.verificarUsuario,
@@ -70,6 +85,16 @@ module.exports = () => {
     // usuariosController.validarPerfil,
     usuariosController.subirImagen,
     usuariosController.editarPerfil);
+
+    // RECIBIR MENSAJES DEL CANDIDATOS: 
+    route.post('/vacantes/:url',vacantesController.subirCV,
+    vacantesController.contactar,
+    )
+
+    route.get('/candidatos/:id',
+        authController.verificarUsuario,
+        vacantesController.mostrarCandidatos
+    )
 
     return route;
 }

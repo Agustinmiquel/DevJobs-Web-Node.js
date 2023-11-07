@@ -6,14 +6,26 @@ const multer = require('multer');
 const shortid = require('shortid');
 
 exports.subirImagen = (req, res, next) => {
+    // aca estan o se filtran los errores en Multer
     upload(req, res, function(error) {
-        if(error instanceof multer.MulterError ){
-            return next()
+        if(error){
+            if(error instanceof multer.MulterError ){
+                if(error.code === 'LIMIT_FILE_SIZE'){
+                    req.flash('error', 'El archivo es muy grande: Máximo 100kb');
+                } else{
+                    req.flash('error', error.message);
+                }
+            } else{
+                req.flash('error', error.message) //error de carga de archivo
+            }
+            res.redirect('/administracion'); //con el return y redirect redirigimos a esta ventana con el error y que no se pase a guardar.
+            return;
+        } else{
+            return next();
         }
     });
-
-    next();
 }
+
 // Opciones de config de Multer
 const configMulter = {
     storage: fileStorage = multer.diskStorage({
@@ -26,8 +38,16 @@ const configMulter = {
             const extension = file.mimetype.split('/')[1];
             next(null, `${shortid.generate()}.${extension}`)
         }
-    }
-    )
+    }), 
+    fileFilter(req,file, cb){
+        if(file.mimetype === 'image/jpeg'|| file.mimetype === 'image/png'){
+            // El callback se ejecuta como TRUE si la imagen es correcta:
+            cb(null, true);
+        } else{
+            cb(new Error('El formato no es valido'), false);
+        }
+    }, 
+    limits : { fileSize : 100000 } //para limitar el tamaño de las imagenes (100kb)
 }
 
 const upload = multer(configMulter).single('imagen');
@@ -104,6 +124,7 @@ exports.formEditarPerfil = (req, res, next) =>{
         nombrePagina: 'Editar Perfil',
         cerrarSesion: true,
         nombre: req.user.nombre,
+        imagen: req.user.imagen,
         usuario: req.user
     })
 }
@@ -118,6 +139,10 @@ exports.editarPerfil = async (req, res, next) => {
         user.password = req.user.password;
     }
 
+    if(req.file){
+        user.imagen = req.file.filename
+    }
+    // console.log(req.file); 
     await user.save();
     req.flash('correcto', 'Cambios guardados correctamente');
 
@@ -146,6 +171,7 @@ exports.validarPerfil = (req, res, next) => {
             cerrarSesion: true,
             nombre: req.user.nombre,
             usuario: req.user,
+            imagen: req.user.imagen,
             mensajes: req.flash(),
         })
     }
