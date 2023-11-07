@@ -238,7 +238,8 @@ exports.buscarVacantes = async (req, res) => {
 
     res.render('home', {
         nombrePagina: `Resultados para la busqueda de : ${req.body.q}`,
+        barra:true,
         vacantes,
-        cerrarSesion: true,
+        boton:true
     })
 }
