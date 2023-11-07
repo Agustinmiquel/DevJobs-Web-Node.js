@@ -18,8 +18,6 @@ const flash = require('connect-flash');
 
 const passport = require('./config/passport')
 
-
-
 require('dotenv').config({path: 'variables.env'});
 
 const app = express(); 
