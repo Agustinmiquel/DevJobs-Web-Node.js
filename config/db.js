@@ -5,11 +5,13 @@ require('dotenv').config({path: 'variables.env'});
 // La conexion lleva dos parametros: la URL y las opciones
 mongoose.connect(process.env.DATABASE, {useNewUrlParser:true});
 
+mongoose.set('strictQuery', true);
+
 mongoose.connection.on('error', (error) =>{
     console.log(error)
 })
 
-mongoose.set('strictQuery', true);
+
 
 //IMPORTAR LOS MODELOS: 
 require('../Models/Vacantes');
