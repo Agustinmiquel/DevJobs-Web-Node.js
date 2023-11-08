@@ -111,9 +111,9 @@ exports.validarVacante = (req, res, next) => {
 
 exports.eliminarVacante = async (req, res) => {
 
-    const { _id } = req.params; 
+    const { id } = req.params; 
 
-    const vacante = await Vacante.findById(_id); 
+    const vacante = await Vacante.findById(id); 
 
     if(verificarAutor(vacante, req.user)){
         //Si es el usuario y puede eliminar
