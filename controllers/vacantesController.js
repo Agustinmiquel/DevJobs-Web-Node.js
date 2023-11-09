@@ -97,7 +97,7 @@ exports.validarVacante = (req, res, next) => {
         // Retorno si hay errores: 
         req.flash('error', errores.map(error => error.msg));
         
-        res.render('nueva-vacante', {
+        return res.render('nueva-vacante', {
             nombrePagina: 'Nueva Vacante',
             cerrarSesion: true,
             nombre: req.user.nombre,
