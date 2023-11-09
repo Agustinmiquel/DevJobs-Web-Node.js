@@ -128,10 +128,10 @@ exports.eliminarVacante = async (req, res) => {
 }
 
 const verificarAutor = ( vacante = {}, usuario = {}) => {
-    if(!vacante.autor.equals(usuario._id)){
-        return false
+    if(vacante.autor.equals(usuario._id)){
+        return true
     }
-    return true;
+
 }
 
 // SUBIR CV con PDF:
