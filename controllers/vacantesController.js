@@ -110,28 +110,26 @@ exports.validarVacante = (req, res, next) => {
 }
 
 exports.eliminarVacante = async (req, res) => {
+    const { _id } = req.params;
 
-    const { _id } = req.params; 
+    try {
+        const vacante = await Vacante.findById(_id);
 
-    const vacante = await Vacante.findById(_id); 
+        if (!vacante) {
+            return res.status(404).send('La vacante no existe');
+        }
 
-    if(verificarAutor(vacante, req.user)){
-        //Si es el usuario y puede eliminar
-        vacante.remove();
-        res.status(200).send('Vacante Eliminada Correctamente');
-    } else{
-        res.status(403).send('Error')
+        if (vacante.autor && vacante.autor.equals(req.user._id)) {
+            // Si es el usuario y puede eliminar
+            await vacante.remove();
+            return res.status(200).send('Vacante Eliminada Correctamente');
+        } else {
+            return res.status(403).send('No tienes permiso para eliminar esta vacante');
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Error en el servidor');
     }
-
-    console.log( _id ); 
- 
-}
-
-const verificarAutor = ( vacante = {}, usuario = {}) => {
-    if(!vacante.autor.equals(usuario._id)){
-        return false
-    }
-    return true;
 }
 
 // SUBIR CV con PDF:
