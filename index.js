@@ -15,7 +15,6 @@ const Handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const expressValidator = require('express-validator'); 
 const flash = require('connect-flash');
-
 const passport = require('./config/passport');
 require('dotenv').config({path: 'variables.env'});
 
@@ -67,9 +66,9 @@ app.use((req,res,next) => {
 
 app.use('/',router());
 
-const port = process.env.PORT;
 const host = '0.0.0.0';
+const port = process.env.PORT;
 
-app.listen(port, host, ()=> {
-    console.log(`Corriendo en ${port} y ${host}`);
-});
+app.listen(port, host,()=>{
+    console.log(`Servidor corriendo en${port} y en ${host} `)
+})

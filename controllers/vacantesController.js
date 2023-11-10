@@ -111,26 +111,28 @@ exports.validarVacante = (req, res, next) => {
 
 exports.eliminarVacante = async (req, res) => {
 
-    const { _id } = req.params; 
+    const { id } = req.params; 
 
-    const vacante = await Vacante.findById(_id); 
+    const vacante = await Vacante.findById(id); 
 
     if(verificarAutor(vacante, req.user)){
         //Si es el usuario y puede eliminar
-        await vacante.remove();
+        vacante.deleteOne();
         res.status(200).send('Vacante Eliminada Correctamente');
     } else{
         res.status(403).send('Error')
     }
 
-    console.log( _id ); 
+    console.log( id ); 
  
 }
 
-const verificarAutor = ( vacante = {}, usuario = {}) => {
-    if(vacante.autor.equals(usuario._id)){
-        return true
-    }
+const verificarAutor = (vacante = {}, usuario = {}) => {
+
+        if(!vacante.autor === usuario._id){
+            return false
+        } 
+        return true;
 
 }
 
